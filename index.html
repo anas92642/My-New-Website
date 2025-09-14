@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,153 +6,187 @@
   <title>Anas _Ishaq</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
   <style>
+    :root {
+      --patriot-red: #b22234;
+      --patriot-blue: #3c3b6e;
+      --patriot-white: #fff;
+      --patriot-gradient: linear-gradient(90deg, #b22234 0%, #3c3b6e 100%);
+    }
     * {
       box-sizing: border-box;
       transition: all 0.3s ease;
     }
-
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
+    }
+    body {
       font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background-image: url("https://i.ibb.co/TBWLbV6N/1757753374229-1757747879938.jpg");
       background-size: cover;
       background-position: center;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
-
-
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 40px auto;
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      animation: fadeIn 1s;
+    }
     .container h3 {
       font-size: 24px;
       margin-bottom: 10px;
-      color: #ffffff;
+      color: var(--patriot-white);
+      text-align: center;
     }
-
     .container p {
       margin-bottom: 20px;
       color: #f3f3f3;
+      text-align: center;
     }
-
-    .input-container {
+    .home-content {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .home-content h1 {
+      font-size: 2em;
+      color: var(--patriot-white);
+      margin-bottom: 30px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .home-content h1 span {
+      color: var(--patriot-red);
+      background: var(--patriot-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .social-links {
       display: flex;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 15px;
-      overflow: hidden;
-      margin-bottom: 20px;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      margin-top: 20px;
     }
-
-    .input-container input {
-      flex: 1;
-      padding: 15px;
+    .patriot-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--patriot-white);
+      background: var(--patriot-gradient);
       border: none;
-      background: transparent;
-      color: #000;
-      font-weight: bold;
-    }
-
-    .input-container input::placeholder {
-      color: #777;
-    }
-
-    .input-container input:focus {
-      outline: none;
-    }
-
-    .input-container button {
-      padding: 15px 20px;
-      background: linear-gradient(135deg, #ff66cc, #9933ff);
-      color: white;
-      border: none;
+      border-radius: 30px;
       cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(60,59,110,0.2);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
     }
-
-    .input-container button:hover {
-      background: #00ffcc;
-      color: #000;
-      box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+    .patriot-btn:before {
+      content: "";
+      position: absolute;
+      left: -75%;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: rgba(255,255,255,0.2);
+      transform: skewX(-20deg);
+      transition: left 0.4s;
+      z-index: 0;
     }
-
-    #pair {
-      font-weight: bold;
-      font-size: 18px;
-      color: #fff;
+    .patriot-btn:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 32px 0 rgba(178,34,52,0.25), 0 1.5px 8px 0 rgba(60,59,110,0.15);
     }
-
-    #copy:hover {
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    .patriot-btn:hover:before {
+      left: 120%;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .patriot-btn span {
+      position: relative;
+      z-index: 1;
     }
-
     @media (max-width: 500px) {
-      .input-container {
-        flex-direction: column;
+      .container {
+        padding: 20px 5px;
       }
-
-      .input-container input,
-      .input-container button {
-        width: 100%;
-        border-radius: 0;
+      .social-links {
+        gap: 10px;
       }
-
-      .input-container button {
-        border-top: 1px solid #ccc;
+      .patriot-btn {
+        width: 90%;
+        font-size: 1em;
+        padding: 10px 0;
       }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px);}
+      to { opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h3></h3>
-    <p></p>
-    <div class="input-container">
-<a href="" class="btn">
+  <div class="container" data-aos="fade-up">
+    <h3>Welcome!</h3>
+    <p>Connect with me on social platforms:</p>
+    <div class="home-content" data-aos="zoom-in" data-aos-delay="200">
+      <h1>Hi, it's <span>Anas</span></h1>
+      <div class="social-links">
+        <a href="https://whatsapp.com/channel/0029Vb6AmdaBKfi9l8xX8e1s" class="patriot-btn" data-aos="fade-right" data-aos-delay="300">
+          <i class="fab fa-whatsapp"></i> <span>Follow me</span>
+        </a>
+        <a href="https://www.facebook.com/anas.ishaq.418290" class="patriot-btn" data-aos="fade-left" data-aos-delay="400">
+          <i class="fab fa-facebook"></i> <span>Facebook</span>
+        </a>
+        <a href="https://github.com/anas92642" class="patriot-btn" data-aos="fade-right" data-aos-delay="500">
+          <i class="fab fa-github"></i> <span>Github</span>
+        </a>
+        <a href="https://www.tiktok.com/@onas_zur?_t=ZN-8ywijLtnKwp&_r=1" class="patriot-btn" data-aos="fade-left" data-aos-delay="600">
+          <i class="fab fa-tiktok"></i> <span>Tiktok</span>
+        </a>
+        <a href="https://www.instagram.com/anasaesthetic097?igsh=MWFzODVycmhndmNtdQ==" class="patriot-btn" data-aos="fade-right" data-aos-delay="700">
+          <i class="fab fa-instagram"></i> <span>Instagram</span>
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1zTF5uRJKfZ3ziLxAZHh47kF85ja34_OFB5C5bVSPumk/edit?usp=drivesdk" class="patriot-btn" data-aos="fade-left" data-aos-delay="800">
+          <i class="fas fa-file-excel"></i> <span>Windows</span>
+        </a>
+        <a href="https://aioupastpapers786.blogspot.com/p/others-software.html" class="patriot-btn" data-aos="fade-right" data-aos-delay="900">
+          <i class="fas fa-download"></i> <span>Software</span>
+        </a>
+        <a href="https://minahilsimdata.info/search.php" class="patriot-btn" data-aos="fade-left" data-aos-delay="1000">
+          <i class="fas fa-database"></i> <span>Anas_DB</span>
+        </a>
+        <a href="https://pfpmaker.com/" class="patriot-btn" data-aos="fade-up" data-aos-delay="1100">
+          <i class="fas fa-user-circle"></i> <span>Profile Picture</span>
+        </a>
+      </div>
     </div>
-    <div id="p
   </div>
-
-
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    const pairOutput = document.getElementById("pair");
-    const submitBtn = document.getElementById("submit");
-    const inputField = document.getElementById("number");
-
-    async function CopyCode() {
-      const codeEl = document.getElementById("copy");
-      const code = codeEl.innerText.replace("CODE: ", "");
-      await navigator.clipboard.writeText(code);
-      codeEl.innerText = "✅ COPIED";
-      codeEl.style.color = "#00ffff";
-      setTimeout(() =
-    
-        <div class="home-content">
-            <h1>Hi, it's <span>Anas</span></h1>
-            </h3>
-            <head>
-              <title>Css Modern Button</title>
-              <link rel="stylesheet" type="text/css" href="style.css">
-            </head>
-            <body>
-              <a href="https://whatsapp.com/channel/0029Vb6AmdaBKfi9l8xX8e1s"><span>Follow me</span></a>
-              <a href="https://www.facebook.com/anas.ishaq.418290"><span>facebook></a>
-              <a href="https://github.com/anas92642"><span>Github</span></a>
-              <a href="https://www.tiktok.com/@onas_zur?_t=ZN-8ywijLtnKwp&_r=1"><span>tiktok</span></a>
-              <a href="https://www.instagram.com/anasaesthetic097?igsh=MWFzODVycmhndmNtdQ=="><span>instagram</span></a>
-              <a href="https://docs.google.com/spreadsheets/d/1zTF5uRJKfZ3ziLxAZHh47kF85ja34_OFB5C5bVSPumk/edit?usp=drivesdk" >Windows</a>
-              <a href="https://aioupastpapers786.blogspot.com/p/others-software.html" >Software</a>
-             <a href="https://minahilsimdata.info/search.php" >Anas_DB</a>
-             <a href="https://pfpmaker.com/" >Profile Picture</a>
-  
-          
+    AOS.init({
+      duration: 900,
+      once: true
+    });
+  </script>
+</body>
 </html>
