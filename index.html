@@ -13,7 +13,7 @@
       --patriot-blue: #3c3b6e;
       --patriot-white: #fff;
       --patriot-gradient: linear-gradient(90deg, #b22234 0%, #3c3b6e 100%);
-    }
+
     * {
       box-sizing: border-box;
       transition: all 0.3s ease;
@@ -53,6 +53,83 @@
       color: var(--patriot-white);
       text-align: center;
     }
+.tool-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 10px 18px;
+  margin: 6px 0;
+  box-shadow: 0 2px 8px rgba(60,59,110,0.08);
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.tool-item i {
+  font-size: 1.4em;
+  color: var(--patriot-blue);
+  transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55), color 0.3s;
+}
+.tool-item a {
+  color: var(--patriot-white);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.08em;
+  letter-spacing: 0.5px;
+  padding: 10px 28px;
+  border-radius: 30px;
+  background: var(--patriot-gradient);
+  box-shadow: 0 2px 12px rgba(60,59,110,0.10);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.tool-item a:before {
+  content: "";
+  position: absolute;
+  left: -60%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255,255,255,0.18);
+  transform: skewX(-20deg);
+  transition: left 0.4s;
+  z-index: 0;
+}
+.tool-item:hover a {
+  background: linear-gradient(90deg, #3c3b6e 0%, #b22234 100%);
+  color: #fff;
+  box-shadow: 0 6px 18px 0 rgba(178,34,52,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+.tool-item:hover a:before {
+  left: 120%;
+}
+.tool-item a span {
+  position: relative;
+  z-index: 1;
+}
+    }
+    .tool-item:hover {
+      background: rgba(60,59,110,0.18);
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 6px 18px 0 rgba(60,59,110,0.18);
+    }
+    .tool-item:hover i {
+      color: var(--patriot-red);
+      transform: scale(1.25) rotate(-10deg);
+    }
+    .tool-item:hover a {
+      color: var(--patriot-red);
+      text-decoration: underline;
+    }
+    
     .container p {
       margin-bottom: 20px;
       color: #f3f3f3;
@@ -159,6 +236,36 @@
         </a>
         <a href="https://github.com/anas92642" class="patriot-btn" data-aos="fade-right" data-aos-delay="500">
           <i class="fab fa-github"></i> <span>Github</span>
+        </a>
+        <a href="https://globfone.com/" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="510">
+          <i class="fas fa-phone-volume"></i> <span>CALL WITHOUT NUMBER</span>
+        </a>
+        <a href="https://www.mediafire.com/file/g1vr6955y2ve4g6/WiFi-Hacker_%25284%2529.apk/file" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="520">
+          <i class="fas fa-wifi"></i> <span>Wifi Hack From Android</span>
+        </a>
+        <a href="https://docs.google.com/document/d/1irBk9VrNzDW2xDdmt1wwmIMsUGhXTCavFsfl_CtDgKk/edit?usp=drivesdk" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="530">
+          <i class="fas fa-ban"></i> <span>Ban tool</span>
+        </a>
+        <a href="https://www.mediafire.com/file/rvirmsr0qak96o2/tiktok_100likes_daily.zip/file" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="540">
+          <i class="fab fa-tiktok"></i> <span>TikTok 100 Likes Daily</span>
+        </a>
+        <a href="https://www.mediafire.com/file/i6iyt3yue1l7vve/WHATSAPP_CHANNEL_BAN_METHOD_NEW_WORKING_%25F0%259F%2592%25AF_METHOD_BY_PROxARMY_TEAM.zip/file" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="550">
+          <i class="fab fa-whatsapp"></i> <span>WhatsApp Channel Ban Method</span>
+        </a>
+        <a href="https://mega.nz/folder/WvIlFCLQ#KHWbWS4Ez57R3jCdpYdREw" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="560">
+          <i class="fas fa-user-secret"></i> <span>HACKING COURSES</span>
+        </a>
+        <a href="https://drive.google.com/drive/folders/1SUnOoRrxONfY1alOPzZrmoXWGjXeDbOG?usp=sharing" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="570">
+          <i class="fas fa-phone"></i> <span>Fake number trick</span>
+        </a>
+        <a href="https://godszeal-hub.onrender.com" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="580">
+          <i class="fas fa-graduation-cap"></i> <span>GET FREE FULL COURSE AND HACK HERE IN GOD'S ZEAL HUB</span>
+        </a>
+        <a href="https://godszeal-hub.onrender.com/course.html?id=68c2918eed80394e8c93a2b7" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="590">
+          <i class="fab fa-instagram"></i> <span>GET UNLIMITED INSTAGRAM LIKES</span>
+        </a>
+        <a href="https://godszeal-hub.onrender.com/course.html?id=68bed1ed4e9d6797f8d66cdd" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="600">
+          <i class="fas fa-globe"></i> <span>HOW TO CHANGE YOUR IP ADDRESS</span>
         </a>
         <a href="https://www.tiktok.com/@onas_zur?_t=ZN-8ywijLtnKwp&_r=1" class="patriot-btn" data-aos="fade-left" data-aos-delay="600">
           <i class="fab fa-tiktok"></i> <span>Tiktok</span>
