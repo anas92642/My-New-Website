@@ -1,378 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anas _Ishaq</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
-  <style>
-    /* Animated text color for all text elements */
-    .patriot-animate-text, .container h3, .container p, .home-content h1, .home-content h1 span, .patriot-btn span, .tool-item a span {
-      animation: patriotTextAnim 2.5s linear infinite alternate;
-      background: linear-gradient(90deg, #b22234, #3c3b6e, #fff, #b22234);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-    @keyframes patriotTextAnim {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-    /* Hacking words animation background */
-    #hacking-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.18;
-    }
-    :root {
-      --patriot-red: #b22234;
-      --patriot-blue: #3c3b6e;
-      --patriot-white: #fff;
-      --patriot-gradient: linear-gradient(90deg, #b22234 0%, #3c3b6e 100%);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacking File System Simulator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Import a monospace font for authentic terminal feel */
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        :root {
+            --primary-color: #00ffff; /* Electric Cyan */
+            --glass-bg: rgba(30, 41, 59, 0.85); /* Slate-900 with transparency */
+            --ios-bg: rgba(255, 255, 255, 0.1); /* Lighter translucent background for iOS feel */
+        }
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        /* Canvas is the static background layer */
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0; 
+            display: block;
+        }
 
-    * {
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      background:
-        linear-gradient(120deg, rgba(178,34,52,0.7) 0%, rgba(60,59,110,0.7) 100%),
-        url("https://i.ibb.co/TBWLbV6N/1757753374229-1757747879938.jpg") no-repeat center center fixed;
-      background-size: cover;
-      background-blend-mode: overlay;
-      overflow-y: auto;
-      overflow-x: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-    .container {
-      width: 100%;
-      max-width: 500px;
-      margin: 40px auto;
-  background: rgba(60,59,110,0.25);
-      border-radius: 20px;
-      padding: 30px 20px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      animation: fadeIn 1s;
-    }
-    .container h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: var(--patriot-white);
-      text-align: center;
-    }
-.tool-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(178,34,52,0.13);
-  border-radius: 12px;
-  padding: 10px 18px;
-  margin: 6px 0;
-  box-shadow: 0 2px 8px rgba(60,59,110,0.08);
-  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-}
-.tool-item i {
-  font-size: 1.4em;
-  color: var(--patriot-blue);
-  transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55), color 0.3s;
-}
-.tool-item a {
-  color: var(--patriot-white);
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 1.08em;
-  letter-spacing: 0.5px;
-  padding: 10px 28px;
-  border-radius: 30px;
-  background: var(--patriot-gradient);
-  box-shadow: 0 2px 12px rgba(60,59,110,0.10);
-  border: none;
-  outline: none;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.tool-item a:before {
-  content: "";
-  position: absolute;
-  left: -60%;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: rgba(255,255,255,0.18);
-  transform: skewX(-20deg);
-  transition: left 0.4s;
-  z-index: 0;
-}
-.tool-item:hover a {
-  background: linear-gradient(90deg, #3c3b6e 0%, #b22234 100%);
-  color: #fff;
-  box-shadow: 0 6px 18px 0 rgba(178,34,52,0.18);
-  transform: translateY(-2px) scale(1.04);
-}
-.tool-item:hover a:before {
-  left: 120%;
-}
-.tool-item a span {
-  position: relative;
-  z-index: 1;
-}
-    }
-    .tool-item:hover {
-      background: rgba(60,59,110,0.18);
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 6px 18px 0 rgba(60,59,110,0.18);
-    }
-    .tool-item:hover i {
-      color: var(--patriot-red);
-      transform: scale(1.25) rotate(-10deg);
-    }
-    .tool-item:hover a {
-      color: var(--patriot-red);
-      text-decoration: underline;
-    }
-    
-    .container p {
-      margin-bottom: 20px;
-      color: #f3f3f3;
-      text-align: center;
-    }
-    .home-content {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .home-content h1 {
-      font-size: 2em;
-      color: var(--patriot-white);
-      margin-bottom: 30px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    .home-content h1 span {
-      color: var(--patriot-red);
-      background: var(--patriot-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .social-links {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .patriot-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 28px;
-      font-size: 1.1em;
-      font-weight: 600;
-      color: var(--patriot-white);
-      background: var(--patriot-gradient);
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(60,59,110,0.2);
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-    }
-    .patriot-btn:before {
-      content: "";
-      position: absolute;
-      left: -75%;
-      top: 0;
-      width: 50%;
-      height: 100%;
-      background: rgba(255,255,255,0.2);
-      transform: skewX(-20deg);
-      transition: left 0.4s;
-      z-index: 0;
-    }
-    .patriot-btn:hover {
-      transform: translateY(-4px) scale(1.04);
-      box-shadow: 0 8px 32px 0 rgba(178,34,52,0.25), 0 1.5px 8px 0 rgba(60,59,110,0.15);
-    }
-    .patriot-btn:hover:before {
-      left: 120%;
-    }
-    .patriot-btn span {
-      position: relative;
-      z-index: 1;
-    }
-    @media (max-width: 500px) {
-      .container {
-        padding: 20px 5px;
-      }
-      .social-links {
-        gap: 10px;
-      }
-      .patriot-btn {
-        width: 90%;
-        font-size: 1em;
-        padding: 10px 0;
-      }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-  </style>
+        /* Container for all floating UI (Login or Console) */
+        #main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        /* Glassy Console Look */
+        .glass-panel {
+            background-color: var(--glass-bg);
+            border: 1px solid rgba(0, 255, 255, 0.5); 
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); 
+            backdrop-filter: blur(8px); 
+        }
+
+        /* Modern iOS-Inspired Login Panel */
+        .ios-login-panel {
+            background-color: var(--ios-bg); 
+            backdrop-filter: blur(20px); /* Stronger blur for iOS */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Folder and file items */
+        .file-item {
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .file-item:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+        .file-item.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Customize scrollbar */
+        #execution-log::-webkit-scrollbar {
+            width: 8px;
+        }
+        #execution-log::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color); 
+            border-radius: 4px;
+        }
+        #execution-log::-webkit-scrollbar-track {
+            background-color: #1e293b; 
+        }
+    </style>
 </head>
 <body>
-  <canvas id="hacking-bg"></canvas>
-  <div class="container" data-aos="fade-up">
-  <h3 class="patriot-animate-text">Welcome!</h3>
-  <p class="patriot-animate-text">Connect with me on social platforms:</p>
-    <div class="home-content" data-aos="zoom-in" data-aos-delay="200">
-  <h1 class="patriot-animate-text">Hi, it's <span class="patriot-animate-text">Anas_Ishaq</span></h1>
-      <div class="social-links">
-        <a href="https://whatsapp.com/channel/0029Vb6AmdaBKfi9l8xX8e1s" class="patriot-btn" data-aos="fade-right" data-aos-delay="300">
-          <i class="fab fa-whatsapp"></i> <span>Follow me</span>
-        </a>
-        <a href="https://www.facebook.com/anas.ishaq.418290" class="patriot-btn" data-aos="fade-left" data-aos-delay="400">
-          <i class="fab fa-facebook"></i> <span>Facebook</span>
-        </a>
-        <a href="https://github.com/anas92642" class="patriot-btn" data-aos="fade-right" data-aos-delay="500">
-          <i class="fab fa-github"></i> <span>Github</span>
-        </a>
-        <a href="https://globfone.com/" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="510">
-          <i class="fas fa-phone-volume"></i> <span>CALL WITHOUT NUMBER</span>
-        </a>
-        <a href="https://www.mediafire.com/file/g1vr6955y2ve4g6/WiFi-Hacker_%25284%2529.apk/file" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="520">
-          <i class="fas fa-wifi"></i> <span>Wifi Hack From Android</span>
-        </a>
-        <a href="https://docs.google.com/document/d/1irBk9VrNzDW2xDdmt1wwmIMsUGhXTCavFsfl_CtDgKk/edit?usp=drivesdk" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="530">
-          <i class="fas fa-ban"></i> <span>Ban tool</span>
-        </a>
-        <a href="https://www.mediafire.com/file/rvirmsr0qak96o2/tiktok_100likes_daily.zip/file" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="540">
-          <i class="fab fa-tiktok"></i> <span>TikTok 100 Likes Daily</span>
-        </a>
-        <a href="https://www.mediafire.com/file/i6iyt3yue1l7vve/WHATSAPP_CHANNEL_BAN_METHOD_NEW_WORKING_%25F0%259F%2592%25AF_METHOD_BY_PROxARMY_TEAM.zip/file" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="550">
-          <i class="fab fa-whatsapp"></i> <span>WhatsApp Channel Ban Method</span>
-        </a>
-        <a href="https://mega.nz/folder/WvIlFCLQ#KHWbWS4Ez57R3jCdpYdREw" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="560">
-          <i class="fas fa-user-secret"></i> <span>HACKING COURSES</span>
-        </a>
-        <a href="https://drive.google.com/drive/folders/1SUnOoRrxONfY1alOPzZrmoXWGjXeDbOG?usp=sharing" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="570">
-          <i class="fas fa-phone"></i> <span>Fake number trick</span>
-        </a>
-        <a href="https://godszeal-hub.onrender.com" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="580">
-          <i class="fas fa-graduation-cap"></i> <span>GET FREE FULL COURSE AND HACK HERE IN GOD'S ZEAL HUB</span>
-        </a>
-        <a href="https://godszeal-hub.onrender.com/course.html?id=68c2918eed80394e8c93a2b7" class="patriot-btn" target="_blank" data-aos="fade-left" data-aos-delay="590">
-          <i class="fab fa-instagram"></i> <span>GET UNLIMITED INSTAGRAM LIKES</span>
-        </a>
-        <a href="https://godszeal-hub.onrender.com/course.html?id=68bed1ed4e9d6797f8d66cdd" class="patriot-btn" target="_blank" data-aos="fade-right" data-aos-delay="600">
-          <i class="fas fa-globe"></i> <span>HOW TO CHANGE YOUR IP ADDRESS</span>
-        </a>
-        <a href="https://www.tiktok.com/@onas_zur?_t=ZN-8ywijLtnKwp&_r=1" class="patriot-btn" data-aos="fade-left" data-aos-delay="600">
-          <i class="fab fa-tiktok"></i> <span>Tiktok</span>
-        </a>
-        <a href="https://www.instagram.com/anasaesthetic097?igsh=MWFzODVycmhndmNtdQ==" class="patriot-btn" data-aos="fade-right" data-aos-delay="700">
-          <i class="fab fa-instagram"></i> <span>Instagram</span>
-        </a>
-        <a href="https://docs.google.com/spreadsheets/d/1zTF5uRJKfZ3ziLxAZHh47kF85ja34_OFB5C5bVSPumk/edit?usp=drivesdk" class="patriot-btn" data-aos="fade-left" data-aos-delay="800">
-          <i class="fas fa-file-excel"></i> <span>Windows</span>
-        </a>
-        <a href="https://aioupastpapers786.blogspot.com/p/others-software.html" class="patriot-btn" data-aos="fade-right" data-aos-delay="900">
-          <i class="fas fa-download"></i> <span>Software</span>
-        </a>
-        <a href="https://minahilsimdata.info/search.php" class="patriot-btn" data-aos="fade-left" data-aos-delay="1000">
-          <i class="fas fa-database"></i> <span>Anas_DB</span>
-        </a>
-        <a href="https://pfpmaker.com/" class="patriot-btn" data-aos="fade-up" data-aos-delay="1100">
-          <i class="fas fa-user-circle"></i> <span>Profile Picture</span>
-        </a>
-      </div>
+    <!-- 1. Background Canvas (Animated Wallpaper) -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- 2. Main Floating UI Container -->
+    <div id="main-container">
+        
+        <!-- --- LOGIN SCREEN --- -->
+        <div id="login-container" class="ios-login-panel w-11/12 max-w-sm p-8 rounded-[3rem] flex flex-col items-center text-white" style="display: none;">
+            
+            <!-- Custom Image Added Here -->
+            <img src="https://i.ibb.co/9DNgYRR/1760205660226-1760205608232-Screenshot-20251011-225902.jpg" 
+                 alt="User Profile Picture" 
+                 class="w-32 h-32 object-cover rounded-full border-4 border-cyan-500 mb-6 shadow-2xl shadow-cyan-500/50"
+                 onerror="this.onerror=null; this.src='https://placehold.co/128x128/00FFFF/000000?text=PROFILE';"
+            >
+            
+            <h1 class="text-3xl font-bold mb-6 text-cyan-400">Secure Protocol Login</h1>
+
+            <div class="w-full space-y-4">
+                <input 
+                    type="text" 
+                    id="login-user" 
+                    placeholder="User ID (Any text)" 
+                    value="Anas_Ishaq007"
+                    class="w-full p-4 rounded-xl bg-white/20 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-200 border border-transparent focus:border-cyan-500 text-base"
+                />
+                <input 
+                    type="password" 
+                    id="login-password" 
+                    placeholder="Access Key (Any text)" 
+                    value="••••••••"
+                    class="w-full p-4 rounded-xl bg-white/20 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-200 border border-transparent focus:border-cyan-500 text-base"
+                    onkeydown="if(event.key === 'Enter') handleLogin()"
+                />
+            </div>
+
+            <p id="login-error" class="text-red-400 text-sm mt-3 hidden">User ID and Access Key are required.</p>
+
+            <button 
+                id="login-button" 
+                onclick="handleLogin()" 
+                class="w-full mt-8 p-4 rounded-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-lg transition duration-300 shadow-xl shadow-cyan-900/50"
+            >
+                INITIATE SESSION
+            </button>
+        </div>
+        
+        <!-- --- FILE SYSTEM CONSOLE --- -->
+        <div id="file-system-container" class="glass-panel w-full h-full md:w-11/12 md:max-w-5xl md:h-[90vh] flex flex-col md:flex-row rounded-xl p-4 text-gray-200 overflow-hidden" style="display: none;">
+            
+            <!-- Left Panel: File System Tree -->
+            <div id="file-tree-panel" class="md:w-1/3 w-full p-2 border-b md:border-b-0 md:border-r border-cyan-500/50 overflow-y-auto max-h-[30vh] md:max-h-full">
+                <h2 class="text-xl font-bold text-cyan-400 mb-4 pb-2 border-b border-cyan-700">TARGET: /user/personal_profile/</h2>
+                
+                <div id="file-system-tree" class="space-y-3">
+                    
+                    <!-- HACKING AND UTILITY LINKS -->
+                    <div>
+                        <h3 class="text-lg text-yellow-400 mb-2 mt-2 font-semibold">-- [01] Development & Data --</h3>
+                        
+                        <!-- GitHub Repo -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('code/github.repo', 'https://github.com/anas92642', 'code')">
+                            <!-- GitHub Icon -->
+                            <svg class="w-5 h-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.087-.743.084-.729.084-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.838 2.809 1.305 3.495.998.108-.77.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.293-1.552 3.301-1.23 3.301-1.23.653 1.652.242 2.873.117 3.176.766.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.923.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.573 22.189 24 17.6 24 12 24 5.373 18.627 0 12 0z"/></svg>
+                            <span class="truncate text-red-300">code/github.repo</span>
+                        </div>
+                        
+                        <!-- Google Sheets Link -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('data/credentials.data', 'https://docs.google.com/spreadsheets/d/1zTF5uRJKfZ3ziLxAZHh47kF85ja34_OFB5C5bVSPumk/edit?usp=drivesdk', 'utility')">
+                            <!-- Data/Spreadsheet Icon -->
+                            <svg class="w-5 h-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6h-3V4c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H2c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 4h6v2H9V4zm13 16H2V8h20v12zM6 10h2v8H6zm4 0h2v8h-2zm4 0h2v8h-2zm4 0h2v8h-2z"/></svg>
+                            <span class="truncate text-yellow-300">data/credentials.data</span>
+                        </div>
+                        
+                        <!-- Blog Link -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('tools/software.blog', 'https://aioupastpapers786.blogspot.com/p/others-software.html', 'blog')">
+                            <!-- Blog/Globe Icon -->
+                            <svg class="w-5 h-5 mr-2 text-cyan-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h2c0 2.95 1.5 5.56 3.79 7.02l-1.79.91zm10-1.79c-1.46-2.29-4.07-3.79-7.02-3.79V5.86c2.95.49 5.56 1.5 7.02 3.79l1.79-.91zM12 4.07V8c-1.46 0-2.88.36-4.14 1.05l-1.79-.91C7.5 7.21 9.61 6 12 6c.7 0 1.38.1 2.04.28L12 4.07z"/></svg>
+                            <span class="truncate text-cyan-300">tools/software.blog</span>
+                        </div>
+                    </div>
+
+                    <!-- SOCIAL LINKS -->
+                    <div>
+                        <h3 class="text-lg text-yellow-400 mb-2 mt-4 font-semibold">-- [02] Social Channels --</h3>
+                        
+                        <!-- WhatsApp -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('social/whatsapp.link', 'https://whatsapp.com/channel/0029Vb6AmdaBKfi9l8xX8e1s', 'social')">
+                            <!-- WhatsApp Icon (Custom Green) -->
+                            <svg class="w-5 h-5 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.03 2.001c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm-1.125 14.5c-.254.088-2.673 1.353-2.673 1.353s-.299.13-.59.13c-.004 0-.008 0-.012 0-.295-.004-.543-.13-.746-.333l-.004-.004c-.33-.33-.509-.76-.509-1.228 0-.012 0-.02-.008-.032-.13-.377-1.353-3.606-1.353-3.606s-.096-.28-.096-.56c0-.28.169-.475.253-.574.084-.1.493-.169.58-.169h.008c.088 0 1.954.76 1.954.76.084.043.19.034.254-.043l1.838-2.31c.068-.088.056-.205-.028-.273-.178-.146-1.076-1.096-1.496-1.554-.056-.06-.096-.13-.096-.226s.034-.16.08-.205c.08-.076.17-.11.267-.11.092 0 .185.034.254.088l.004.004 2.923 2.834c.052.052.12.088.204.088h.028c.084 0 .15-.028.205-.088 1.48-1.543 2.37-2.387 2.45-2.476.126-.14.288-.2.457-.208.169 0 .338.064.457.185.118.118.29.28.324.425.04.148-.04.42-.36.878-.458.683-1.637 2.144-1.637 2.144s-.06.27-.06.44c0 .17.168.375.304.544l2.584 2.87c.056.06.088.134.088.204 0 .092-.028.172-.08.24l-.004.004c-.198.198-.446.33-.74.33-.004 0-.008 0-.012 0-.283-.004-.49-.074-2.81-1.12-2.903-1.385-2.937-1.405-2.937-1.405s-.088-.04-.15-.04c-.06 0-.12.04-.158.084z"/></svg>
+                            <span class="truncate">social/whatsapp.link</span>
+                        </div>
+
+                        <!-- Facebook -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('social/facebook.link', 'https://www.facebook.com/anas.ishaq.418290', 'social')">
+                            <!-- Facebook Icon -->
+                            <svg class="w-5 h-5 mr-2 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.353c-.571 0-.747.258-.747.766v1.171h2.15l-.281 2.188h-1.869v7.712h-2.188v-7.712h-1.87v-2.188h1.87v-1.666c0-1.796 1.056-2.883 2.793-2.883h1.663v2.042z"/></svg>
+                            <span class="truncate">social/facebook.link</span>
+                        </div>
+
+                        <!-- Instagram -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('social/instagram.link', 'https://www.instagram.com/anasaesthetic097?igsh=MWFzODVycmhndmNtdQ==', 'social')">
+                            <!-- Instagram Icon (Custom Pink/Purple) -->
+                            <svg class="w-5 h-5 mr-2 text-pink-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.851.07 3.254.148 4.777 1.668 4.925 4.925.058 1.267.07 1.647.07 4.851s-.012 3.584-.07 4.851c-.148 3.254-1.668 4.777-4.925 4.925-1.267.058-1.647.07-4.851.07s-3.584-.012-4.851-.07c-3.254-.148-4.777-1.668-4.925-4.925-.058-1.267-.07-1.647-.07-4.851s.012-3.584.07-4.851c.148-3.254 1.668-4.777 4.925-4.925 1.267-.058 1.647-.07 4.851-.07zm0 2.163c-3.149 0-3.522.01-4.778.067-2.618.121-3.791 1.294-3.91 3.91-.057 1.256-.067 1.629-.067 4.778s.01 3.522.067 4.778c.121 2.618 1.294 3.791 3.91 3.91 1.256.057 1.629.067 4.778.067s3.522-.01 4.778-.067c2.618-.121 3.791-1.294 3.91-3.91.057-1.256.067-1.629.067-4.778s-.01-3.522-.067-4.778c-.121-2.618-1.294-3.791-3.91-3.91-1.256-.057-1.629-.067-4.778-.067zm0 1.253c-3.155 0-3.905.01-4.778.067-.087.004-.162.007-.245.012-.423.023-.746.104-.984.205-.407.172-.73.407-.984.73s-.407.577-.504.984c-.1.245-.182.568-.205.984-.005.083-.008.158-.012.245-.057 1.256-.067 1.629-.067 4.778s.01 3.522.067 4.778c.004.087.007.162.012.245.023.423.104.746.205.984.172.407.407.73.73.984s.577.407.984.504c.245.1.568.182.984.205.005.083.008.158.012.245 1.256.057 1.629.067 4.778.067s3.522-.01 4.778-.067c.087-.004.162-.007.245-.012.423-.023.104-.746.205-.984.172-.407.407-.73.73-.984s.577-.407.984-.504c.1-.245.182-.568.205-.984.005-.083.008-.158.012-.245.057-1.256.067-1.629.067-4.778s-.01-3.522-.067-4.778c-.004-.087-.007-.162-.012-.245-.023-.423-.104-.746-.205-.984-.172-.407-.407-.73-.73-.984s-.577-.407-.984-.504c-.245-.1-.568-.182-.984-.205-.083-.005-.158-.008-.245-.012-1.256-.057-1.629-.067-4.778-.067zm0 3.328c-2.43 0-4.414 1.984-4.414 4.414s1.984 4.414 4.414 4.414 4.414-1.984 4.414-4.414-1.984-4.414-4.414-4.414zm0 7.237c-1.554 0-2.823-1.269-2.823-2.823s1.269-2.823 2.823-2.823 2.823 1.269 2.823 2.823-1.269 2.823-2.823 2.823zm5.798-9.088c-.687 0-1.246-.559-1.246-1.246s.559-1.246 1.246-1.246c.687 0 1.246.559 1.246 1.246s-.559 1.246-1.246 1.246z"/></svg>
+                            <span class="truncate">social/instagram.link</span>
+                        </div>
+                        
+                        <!-- TikTok -->
+                        <div class="file-item p-2 rounded-lg flex items-center" 
+                            onclick="openFile('social/tiktok.link', 'https://www.tiktok.com/@onas_zur?_t=ZN-8ywijLtnKwp&_r=1', 'social')">
+                            <!-- TikTok Icon (Custom Red/Cyan) -->
+                            <svg class="w-5 h-5 mr-2 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.55 0c.264 0 .528.005.792.017v5.673c-.027-.006-.054-.012-.08-.018-1.528-.152-3.411-.084-4.945 1.189-1.391 1.144-1.696 3.011-1.055 4.639.641 1.628 2.378 2.657 4.195 2.657 1.817 0 3.554-1.029 4.195-2.657.641-1.628.336-3.495-1.055-4.639 1.523-.153 2.923-1.079 3.495-2.585v-4.605c-.264.01-.528.015-.792.015-3.048 0-5.895 1.183-7.585 3.327-.552.709-1.058 1.488-1.503 2.327-.445-.839-.88-1.618-1.423-2.327-1.69-2.144-4.537-3.327-7.585-3.327zm0 0c.264 0 .528.005.792.017v5.673c-.027-.006-.054-.012-.08-.018-1.528-.152-3.411-.084-4.945 1.189-1.391 1.144-1.696 3.011-1.055 4.639.641 1.628 2.378 2.657 4.195 2.657 1.817 0 3.554-1.029 4.195-2.657.641-1.628.336-3.495-1.055-4.639 1.523-.153 2.923-1.079 3.495-2.585v-4.605c-.264.01-.528.015-.792.015-3.048 0-5.895 1.183-7.585 3.327-.552.709-1.058 1.488-1.503 2.327-.445-.839-.88-1.618-1.423-2.327-1.69-2.144-4.537-3.327-7.585-3.327z" transform="translate(0 3)"/><path fill="#00ffff" d="M12.55 0c.264 0 .528.005.792.017v5.673c-.027-.006-.054-.012-.08-.018-1.528-.152-3.411-.084-4.945 1.189-1.391 1.144-1.696 3.011-1.055 4.639.641 1.628 2.378 2.657 4.195 2.657 1.817 0 3.554-1.029 4.195-2.657.641-1.628.336-3.495-1.055-4.639 1.523-.153 2.923-1.079 3.495-2.585v-4.605c-.264.01-.528.015-.792.015-3.048 0-5.895 1.183-7.585 3.327-.552.709-1.058 1.488-1.503 2.327-.445-.839-.88-1.618-1.423-2.327-1.69-2.144-4.537-3.327-7.585-3.327z" transform="translate(1 3)"/></svg>
+                            <span class="truncate">social/tiktok.link</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Execution Log & Loading Image -->
+            <div class="md:w-2/3 w-full p-4 flex flex-col space-y-4 flex-grow">
+                <h2 class="text-xl font-bold text-cyan-400 pb-2 border-b border-cyan-700">EXECUTION LOG & STATUS</h2>
+
+                <!-- Custom Image Loading Area (Hidden by default) -->
+                <div id="image-loader" class="flex flex-col items-center justify-center flex-grow space-y-4 hidden">
+                    <img src="https://i.ibb.co/9DNgYRR/1760205660226-1760205608232-Screenshot-20251011-225902.jpg" 
+                         alt="Accessing Profile" 
+                         class="w-40 h-40 object-cover rounded-full border-4 border-cyan-500 shadow-2xl shadow-cyan-500/50 animate-pulse"
+                         onerror="this.onerror=null; this.src='https://placehold.co/160x160/00FFFF/000000?text=ACCESS';"
+                    >
+                    <p class="text-xl text-cyan-400 font-bold mt-4">INITIATING SECURE DATA TRANSFER...</p>
+                    <div id="loading-bar-inner" class="w-full max-w-sm h-2 bg-cyan-900 mt-4 rounded-full overflow-hidden">
+                        <div id="loading-progress" class="h-2 bg-cyan-400 transition-all duration-100 ease-linear"></div>
+                    </div>
+                </div>
+
+                <!-- Original Execution Log (Shown by default) -->
+                <div id="execution-log" class="flex-grow overflow-y-auto space-y-1 text-sm bg-slate-900/40 p-3 rounded-lg">
+                    <!-- Initial Log Message -->
+                    <p class="text-green-400">[SYSTEM] :: Login successful. Access granted to personal profile matrix.</p>
+                </div>
+
+                <!-- Simulated Status Bar -->
+                <div class="pt-2 border-t border-cyan-500/50">
+                    <p class="text-xs text-gray-400 mb-1">CURRENT TARGET PATH:</p>
+                    <p id="target-path" class="text-cyan-300 truncate font-bold">/user/personal_profile/</p>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-  </div>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    // Speak welcome message on load
-    window.addEventListener('DOMContentLoaded', function() {
-      const speakWelcome = () => {
-        if ('speechSynthesis' in window) {
-          const utter = new SpeechSynthesisUtterance('Welcome Connect with me on social platforms Hi its Anas Ishaque');
-          utter.rate = 1;
-          utter.pitch = 1.1;
-          utter.volume = 1;
-          utter.lang = 'en-hindi';
-          window.speechSynthesis.speak(utter);
+
+    <script>
+        // --- UI State Functions ---
+        const loginContainer = document.getElementById('login-container');
+        const fileSystemContainer = document.getElementById('file-system-container');
+
+        function showLoginScreen() {
+            loginContainer.style.display = 'flex';
+            fileSystemContainer.style.display = 'none';
         }
-      };
-      // Delay to sync with logo overlay
-      setTimeout(speakWelcome, 400);
-    });
-  </script>
-  <script>
-    // Matrix-style hacking words animation
-    const canvas = document.getElementById('hacking-bg');
-    const ctx = canvas.getContext('2d');
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
-    const fontSize = 18;
-    const columns = Math.floor(width / fontSize);
-    const drops = Array(columns).fill(1);
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(0,0,0,0.15)';
-      ctx.fillRect(0, 0, width, height);
-      ctx.font = fontSize + 'px monospace';
-      ctx.fillStyle = '#00ff55';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
+
+        function showMainConsole() {
+            loginContainer.style.display = 'none';
+            fileSystemContainer.style.display = 'flex';
         }
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 50);
-    window.addEventListener('resize', () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-    });
-  </script>
-  <script>
-    AOS.init({
-      duration: 900,
-      once: true
-    });
-  </script>
+
+        /**
+         * Simulates a login check.
+         */
+        window.handleLogin = async function() {
+            const user = document.getElementById('login-user').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            const errorElement = document.getElementById('login-error');
+            const loginButton = document.getElementById('login-button');
+
+            errorElement.classList.add('hidden');
+            loginButton.disabled = true;
+            loginButton.textContent = 'AUTHENTICATING...';
+
+            if (user && password) {
+                // Simulate successful connection and authentication delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showMainConsole();
+                
+            } else {
+                errorElement.textContent = "User ID and Access Key are required.";
+                errorElement.classList.remove('hidden');
+            }
+
+            loginButton.disabled = false;
+            loginButton.textContent = 'INITIATE SESSION';
+        };
+
+
+        // --- Core File System Logic ---
+        const logWindow = document.getElementById('execution-log');
+        const targetPath = document.getElementById('target-path');
+        const imageLoader = document.getElementById('image-loader'); // New element
+        const loadingProgress = document.getElementById('loading-progress');
+
+        /**
+         * Appends a log entry to the execution window.
+         * @param {string} text - The content of the log entry.
+         * @param {string} color - Tailwind text color class.
+         * @param {boolean} isHtml - If true, injects content as innerHTML (used for links).
+         */
+        function appendLog(text, color = 'text-green-400', isHtml = false) {
+            const p = document.createElement('p');
+            p.className = `${color} leading-snug`;
+            const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+            
+            if (isHtml) {
+                // Use innerHTML for clickable links
+                p.innerHTML = `[${time}] :: ${text}`;
+            } else {
+                // Use textContent for safety in all other cases
+                p.textContent = `[${time}] :: ${text}`;
+            }
+            logWindow.appendChild(p);
+            logWindow.scrollTop = logWindow.scrollHeight; // Auto-scroll
+        }
+        
+        /**
+         * Disables or enables interaction with file system items during a process.
+         * @param {boolean} disabled - True to disable, False to enable.
+         */
+        function toggleInteraction(disabled) {
+            const items = document.querySelectorAll('.file-item');
+            items.forEach(item => {
+                item.classList.toggle('disabled', disabled);
+            });
+        }
+
+        /**
+         * Simulates opening a file or folder with a loading sequence and handles the link opening.
+         * @param {string} name - The name of the file or folder displayed in the UI.
+         * @param {string} link - The actual URL to open.
+         * @param {string} type - The category (social, code, utility).
+         */
+        window.openFile = async function(name, link, type) {
+            
+            toggleInteraction(true); // Disable clicks
+            
+            // 1. Setup Loading UI: Hide log, show image loader
+            logWindow.style.display = 'none'; 
+            imageLoader.classList.remove('hidden'); 
+            targetPath.textContent = `/user/personal_profile/ ${name}`;
+
+            // 2. Start Loading Phase (Simulate resource connection)
+            
+            const loadTime = 2000; // Total simulation time
+            const steps = 10;
+            const stepTime = loadTime / steps;
+
+            for (let i = 1; i <= steps; i++) {
+                const percentage = i * 10;
+                loadingProgress.style.width = `${percentage}%`;
+                // Wait for the step duration
+                await new Promise(resolve => setTimeout(resolve, stepTime));
+            }
+
+            // 3. Success/Status Phase: Hide image loader, show log
+            imageLoader.classList.add('hidden'); 
+            logWindow.style.display = 'block'; 
+            loadingProgress.style.width = '0%'; // Reset progress bar
+
+            // Log the connection results
+            appendLog(`[SUCCESS] :: Link extraction complete for ${name}.`, 'text-green-400 font-bold');
+            
+            let logMessage = '';
+
+            switch (type) {
+                case 'social':
+                    logMessage = `STATUS: Redirecting to social channel. Click link below.`;
+                    break;
+                case 'code':
+                    logMessage = `STATUS: GitHub repository found. Repository access link established.`;
+                    break;
+                case 'utility':
+                    logMessage = `STATUS: Data/Tool link established. Preparing to execute external URL.`;
+                    break;
+                case 'blog':
+                    logMessage = `STATUS: External blog resource located. Preparing direct link.`;
+                    break;
+                default:
+                    logMessage = `ERROR: Unknown resource type. Attempting generic connection.`;
+            }
+
+            // Log the action (text only)
+            appendLog(logMessage, 'text-green-300');
+            
+            // Log the clickable link (HTML)
+            const linkHtml = `ACCESS GRANTED: <a href="${link}" target="_blank" class="text-white underline hover:text-cyan-400 transition">${link}</a>`;
+            appendLog(linkHtml, 'text-cyan-400 font-bold', true); 
+
+            // Add a separator and re-enable interaction
+            appendLog('--- PROTOCOL COMPLETE ---', 'text-gray-600');
+            toggleInteraction(false);
+        };
+
+
+        // --- Wallpaper Animation Logic (Gray Circles) ---
+        const matrixCanvas = document.getElementById('matrixCanvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
+        
+        let width, height;
+        const column_width = 15; 
+        const row_height = 15;   
+        const circle_radius = 2.5; 
+        let drops = [];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            matrixCanvas.width = width;
+            matrixCanvas.height = height;
+            const columns = Math.floor(width / column_width);
+            if (drops.length === 0 || drops.length !== columns) {
+                drops.length = columns;
+                for(let i = 0; i < columns; i++) { drops[i] = 1; }
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function draw() {
+            matrixCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            matrixCtx.fillRect(0, 0, width, height);
+
+            matrixCtx.fillStyle = "#AAAAAA"; 
+
+            for(let i = 0; i < drops.length; i++) {
+                const x_pos = i * column_width + (column_width / 2); 
+                const y_pos = drops[i] * row_height; 
+                
+                matrixCtx.beginPath();
+                matrixCtx.arc(x_pos, y_pos, circle_radius, 0, Math.PI * 2);
+                matrixCtx.fill();
+                
+                if(drops[i] * row_height > height && Math.random() > 0.97) {
+                    drops[i] = 0; 
+                }
+
+                drops[i]++;
+            }
+        }
+
+        // --- Start Application ---
+        window.onload = function() {
+            resizeCanvas();
+            setInterval(draw, 40); 
+            
+            // Show the login screen first
+            showLoginScreen();
+        };
+    </script>
 </body>
 </html>
