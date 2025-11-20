@@ -336,62 +336,64 @@
          * @param {string} type - The category (social, code, utility).
          */
         window.openFile = async function(name, link, type) {
-            
-            toggleInteraction(true); // Disable clicks
-            
-            // 1. Setup Loading UI: Hide log, show image loader
-            logWindow.style.display = 'none'; 
-            imageLoader.classList.remove('hidden'); 
+            // Prevent interaction while processing
+            toggleInteraction(true);
+
+            // Show loading UI (do NOT open any window yet)
+            logWindow.style.display = 'none';
+            imageLoader.classList.remove('hidden');
             targetPath.textContent = `/user/personal_profile/ ${name}`;
 
-            // 2. Start Loading Phase (Simulate resource connection)
-            
-            const loadTime = 2000; // Total simulation time
+            // Simulated loading progress
+            const loadTime = 1500; // ms
             const steps = 10;
-            const stepTime = loadTime / steps;
+            const stepTime = Math.max(20, Math.floor(loadTime / steps));
 
             for (let i = 1; i <= steps; i++) {
-                const percentage = i * 10;
+                const percentage = i * (100 / steps);
                 loadingProgress.style.width = `${percentage}%`;
-                // Wait for the step duration
                 await new Promise(resolve => setTimeout(resolve, stepTime));
             }
 
-            // 3. Success/Status Phase: Hide image loader, show log
-            imageLoader.classList.add('hidden'); 
-            logWindow.style.display = 'block'; 
-            loadingProgress.style.width = '0%'; // Reset progress bar
+            // Restore UI after loading completes
+            imageLoader.classList.add('hidden');
+            logWindow.style.display = 'block';
+            loadingProgress.style.width = '0%';
 
-            // Log the connection results
+            // Log outcome WITHOUT revealing the URL
             appendLog(`[SUCCESS] :: Link extraction complete for ${name}.`, 'text-green-400 font-bold');
-            
-            let logMessage = '';
 
-            switch (type) {
-                case 'social':
-                    logMessage = `STATUS: Redirecting to social channel. Click link below.`;
-                    break;
-                case 'code':
-                    logMessage = `STATUS: GitHub repository found. Repository access link established.`;
-                    break;
-                case 'utility':
-                    logMessage = `STATUS: Data/Tool link established. Preparing to execute external URL.`;
-                    break;
-                case 'blog':
-                    logMessage = `STATUS: External blog resource located. Preparing direct link.`;
-                    break;
-                default:
-                    logMessage = `ERROR: Unknown resource type. Attempting generic connection.`;
+            let statusMsg = 'STATUS: Preparing external redirect.';
+            if (type === 'social') statusMsg = 'STATUS: Redirecting to social channel.';
+            if (type === 'code') statusMsg = 'STATUS: Redirecting to code repository.';
+            if (type === 'utility') statusMsg = 'STATUS: Redirecting to utility resource.';
+            if (type === 'blog') statusMsg = 'STATUS: Redirecting to blog resource.';
+
+            appendLog(statusMsg, 'text-green-300');
+            appendLog('ACCESS GRANTED: Opening external resource in a new window...', 'text-cyan-400 font-bold');
+
+            // Small pause so the user sees the message before the navigation
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            // Attempt to open the link now (after loading completes). If blocked, show fallback button.
+            try {
+                const w = window.open(link, '_blank');
+                if (!w) throw new Error('Popup blocked');
+            } catch (err) {
+                appendLog('WARNING: Automatic open blocked by the browser. Use the button below to proceed.', 'text-yellow-400');
+
+                const btn = document.createElement('button');
+                btn.textContent = 'OPEN RESOURCE';
+                btn.className = 'bg-cyan-600 text-white px-3 py-1 rounded';
+                btn.onclick = () => { window.open(link, '_blank'); };
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'pt-1';
+                wrapper.appendChild(btn);
+                logWindow.appendChild(wrapper);
+                logWindow.scrollTop = logWindow.scrollHeight;
             }
 
-            // Log the action (text only)
-            appendLog(logMessage, 'text-green-300');
-            
-            // Log the clickable link (HTML)
-            const linkHtml = `ACCESS GRANTED: <a href="${link}" target="_blank" class="text-white underline hover:text-cyan-400 transition">${link}</a>`;
-            appendLog(linkHtml, 'text-cyan-400 font-bold', true); 
-
-            // Add a separator and re-enable interaction
             appendLog('--- PROTOCOL COMPLETE ---', 'text-gray-600');
             toggleInteraction(false);
         };
