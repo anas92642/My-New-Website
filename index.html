@@ -4,94 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacking File System Simulator</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Import a monospace font for authentic terminal feel */
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
-        :root {
-            --primary-color: #00ffff; /* Electric Cyan */
-            --glass-bg: rgba(30, 41, 59, 0.85); /* Slate-900 with transparency */
-            --ios-bg: rgba(255, 255, 255, 0.1); /* Lighter translucent background for iOS feel */
-        }
-        
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #000;
-            font-family: 'Share Tech Mono', monospace;
-        }
-        
-        /* Canvas is the static background layer */
-        #matrixCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 0; 
-            display: block;
-        }
-
-        /* Container for all floating UI (Login or Console) */
-        #main-container {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100vw;
-            height: 100vh;
-        }
-        
-        /* Glassy Console Look */
-        .glass-panel {
-            background-color: var(--glass-bg);
-            border: 1px solid rgba(0, 255, 255, 0.5); 
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); 
-            backdrop-filter: blur(8px); 
-        }
-
-        /* Modern iOS-Inspired Login Panel */
-        .ios-login-panel {
-            background-color: var(--ios-bg); 
-            backdrop-filter: blur(20px); /* Stronger blur for iOS */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Folder and file items */
-        .file-item {
-            cursor: pointer;
-            transition: all 0.1s;
-        }
-        .file-item:hover {
-            background-color: rgba(0, 255, 255, 0.1);
-            color: var(--primary-color);
-        }
-        .file-item.disabled {
-            pointer-events: none;
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Customize scrollbar */
-        #execution-log::-webkit-scrollbar {
-            width: 8px;
-        }
-        #execution-log::-webkit-scrollbar-thumb {
-            background-color: var(--primary-color); 
-            border-radius: 4px;
-        }
-        #execution-log::-webkit-scrollbar-track {
-            background-color: #1e293b; 
-        }
+        :root{--primary-color:#00ffff;--glass-bg:rgba(30,41,59,0.85);--ios-bg:rgba(255,255,255,0.1)}
+        body{margin:0;overflow:hidden;background:#000;font-family:'Share Tech Mono',monospace}
+        #matrixCanvas{position:fixed;top:0;left:0;z-index:0;display:block}
+        #main-container{position:relative;z-index:10;display:flex;justify-content:center;align-items:center;width:100vw;height:100vh}
+        .glass-panel{background-color:var(--glass-bg);border:1px solid rgba(0,255,255,0.5);box-shadow:0 0 20px rgba(0,255,255,0.3);backdrop-filter:blur(8px)}
+        .ios-login-panel{background-color:var(--ios-bg);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 4px 30px rgba(0,0,0,0.1)}
+        .file-item{cursor:pointer;transition:all .1s}.file-item:hover{background:rgba(0,255,255,0.1);color:var(--primary-color)}
+        .file-item.disabled{pointer-events:none;opacity:.6;cursor:not-allowed}
+        #execution-log::-webkit-scrollbar{width:8px}
+        #execution-log::-webkit-scrollbar-thumb{background:var(--primary-color);border-radius:4px}
+        #execution-log::-webkit-scrollbar-track{background:#1e293b}
     </style>
 </head>
 <body>
-    <!-- 1. Background Canvas (Animated Wallpaper) -->
     <canvas id="matrixCanvas"></canvas>
 
-    <!-- 2. Main Floating UI Container -->
     <div id="main-container">
         
         <!-- --- LOGIN SCREEN --- -->
@@ -147,29 +78,20 @@
                     <!-- HACKING AND UTILITY LINKS -->
                     <div>
                         <h3 class="text-lg text-yellow-400 mb-2 mt-2 font-semibold">-- [01] Development & Data --</h3>
-                        
-                        <!-- GitHub Repo -->
-                        <div class="file-item p-2 rounded-lg flex items-center" 
-                            onclick="openFile('code/github.repo', 'https://github.com/anas92642', 'code')">
-                            <!-- GitHub Icon -->
-                            <svg class="w-5 h-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.087-.743.084-.729.084-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.838 2.809 1.305 3.495.998.108-.77.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.293-1.552 3.301-1.23 3.301-1.23.653 1.652.242 2.873.117 3.176.766.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.923.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.573 22.189 24 17.6 24 12 24 5.373 18.627 0 12 0z"/></svg>
-                            <span class="truncate text-red-300">code/github.repo</span>
-                        </div>
-                        
                         <!-- Google Sheets Link -->
                         <div class="file-item p-2 rounded-lg flex items-center" 
-                            onclick="openFile('data/credentials.data', 'https://docs.google.com/spreadsheets/d/1zTF5uRJKfZ3ziLxAZHh47kF85ja34_OFB5C5bVSPumk/edit?usp=drivesdk', 'utility')">
+                            onclick="openFile('data/Softwares', 'https://docs.google.com/spreadsheets/d/1zTF5uRJKfZ3ziLxAZHh47kF85ja34_OFB5C5bVSPumk/edit?usp=drivesdk', 'utility')">
                             <!-- Data/Spreadsheet Icon -->
                             <svg class="w-5 h-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6h-3V4c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H2c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 4h6v2H9V4zm13 16H2V8h20v12zM6 10h2v8H6zm4 0h2v8h-2zm4 0h2v8h-2zm4 0h2v8h-2z"/></svg>
-                            <span class="truncate text-yellow-300">data/credentials.data</span>
+                            <span class="truncate text-yellow-300">data/Softwares</span>
                         </div>
                         
                         <!-- Blog Link -->
                         <div class="file-item p-2 rounded-lg flex items-center" 
-                            onclick="openFile('tools/software.blog', 'https://aioupastpapers786.blogspot.com/p/others-software.html', 'blog')">
+                            onclick="openFile('tools/softwares for Computer', 'https://aioupastpapers786.blogspot.com/p/others-software.html', 'blog')">
                             <!-- Blog/Globe Icon -->
                             <svg class="w-5 h-5 mr-2 text-cyan-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93h2c0 2.95 1.5 5.56 3.79 7.02l-1.79.91zm10-1.79c-1.46-2.29-4.07-3.79-7.02-3.79V5.86c2.95.49 5.56 1.5 7.02 3.79l1.79-.91zM12 4.07V8c-1.46 0-2.88.36-4.14 1.05l-1.79-.91C7.5 7.21 9.61 6 12 6c.7 0 1.38.1 2.04.28L12 4.07z"/></svg>
-                            <span class="truncate text-cyan-300">tools/software.blog</span>
+                            <span class="truncate text-cyan-300">softwares for Computer</span>
                         </div>
                     </div>
 
@@ -179,7 +101,7 @@
                         
                         <!-- WhatsApp -->
                         <div class="file-item p-2 rounded-lg flex items-center" 
-                            onclick="openFile('social/whatsapp.link', 'https://whatsapp.com/channel/0029Vb6AmdaBKfi9l8xX8e1s', 'social')">
+                            onclick="openFile('social/whatsapp.link', 'https://wa.me/qr/3NQEGYNWUCUNL1', 'social')">
                             <!-- WhatsApp Icon (Custom Green) -->
                             <svg class="w-5 h-5 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.03 2.001c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm-1.125 14.5c-.254.088-2.673 1.353-2.673 1.353s-.299.13-.59.13c-.004 0-.008 0-.012 0-.295-.004-.543-.13-.746-.333l-.004-.004c-.33-.33-.509-.76-.509-1.228 0-.012 0-.02-.008-.032-.13-.377-1.353-3.606-1.353-3.606s-.096-.28-.096-.56c0-.28.169-.475.253-.574.084-.1.493-.169.58-.169h.008c.088 0 1.954.76 1.954.76.084.043.19.034.254-.043l1.838-2.31c.068-.088.056-.205-.028-.273-.178-.146-1.076-1.096-1.496-1.554-.056-.06-.096-.13-.096-.226s.034-.16.08-.205c.08-.076.17-.11.267-.11.092 0 .185.034.254.088l.004.004 2.923 2.834c.052.052.12.088.204.088h.028c.084 0 .15-.028.205-.088 1.48-1.543 2.37-2.387 2.45-2.476.126-.14.288-.2.457-.208.169 0 .338.064.457.185.118.118.29.28.324.425.04.148-.04.42-.36.878-.458.683-1.637 2.144-1.637 2.144s-.06.27-.06.44c0 .17.168.375.304.544l2.584 2.87c.056.06.088.134.088.204 0 .092-.028.172-.08.24l-.004.004c-.198.198-.446.33-.74.33-.004 0-.008 0-.012 0-.283-.004-.49-.074-2.81-1.12-2.903-1.385-2.937-1.405-2.937-1.405s-.088-.04-.15-.04c-.06 0-.12.04-.158.084z"/></svg>
                             <span class="truncate">social/whatsapp.link</span>
@@ -198,14 +120,6 @@
                             onclick="openFile('social/instagram.link', 'https://www.instagram.com/anasaesthetic097?igsh=MWFzODVycmhndmNtdQ==', 'social')">
                             <!-- Instagram Icon (Custom Pink/Purple) -->
                             <svg class="w-5 h-5 mr-2 text-pink-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.851.07 3.254.148 4.777 1.668 4.925 4.925.058 1.267.07 1.647.07 4.851s-.012 3.584-.07 4.851c-.148 3.254-1.668 4.777-4.925 4.925-1.267.058-1.647.07-4.851.07s-3.584-.012-4.851-.07c-3.254-.148-4.777-1.668-4.925-4.925-.058-1.267-.07-1.647-.07-4.851s.012-3.584.07-4.851c.148-3.254 1.668-4.777 4.925-4.925 1.267-.058 1.647-.07 4.851-.07zm0 2.163c-3.149 0-3.522.01-4.778.067-2.618.121-3.791 1.294-3.91 3.91-.057 1.256-.067 1.629-.067 4.778s.01 3.522.067 4.778c.121 2.618 1.294 3.791 3.91 3.91 1.256.057 1.629.067 4.778.067s3.522-.01 4.778-.067c2.618-.121 3.791-1.294 3.91-3.91.057-1.256.067-1.629.067-4.778s-.01-3.522-.067-4.778c-.121-2.618-1.294-3.791-3.91-3.91-1.256-.057-1.629-.067-4.778-.067zm0 1.253c-3.155 0-3.905.01-4.778.067-.087.004-.162.007-.245.012-.423.023-.746.104-.984.205-.407.172-.73.407-.984.73s-.407.577-.504.984c-.1.245-.182.568-.205.984-.005.083-.008.158-.012.245-.057 1.256-.067 1.629-.067 4.778s.01 3.522.067 4.778c.004.087.007.162.012.245.023.423.104.746.205.984.172.407.407.73.73.984s.577.407.984.504c.245.1.568.182.984.205.005.083.008.158.012.245 1.256.057 1.629.067 4.778.067s3.522-.01 4.778-.067c.087-.004.162-.007.245-.012.423-.023.104-.746.205-.984.172-.407.407-.73.73-.984s.577-.407.984-.504c.1-.245.182-.568.205-.984.005-.083.008-.158.012-.245.057-1.256.067-1.629.067-4.778s-.01-3.522-.067-4.778c-.004-.087-.007-.162-.012-.245-.023-.423-.104-.746-.205-.984-.172-.407-.407-.73-.73-.984s-.577-.407-.984-.504c-.245-.1-.568-.182-.984-.205-.083-.005-.158-.008-.245-.012-1.256-.057-1.629-.067-4.778-.067zm0 3.328c-2.43 0-4.414 1.984-4.414 4.414s1.984 4.414 4.414 4.414 4.414-1.984 4.414-4.414-1.984-4.414-4.414-4.414zm0 7.237c-1.554 0-2.823-1.269-2.823-2.823s1.269-2.823 2.823-2.823 2.823 1.269 2.823 2.823-1.269 2.823-2.823 2.823zm5.798-9.088c-.687 0-1.246-.559-1.246-1.246s.559-1.246 1.246-1.246c.687 0 1.246.559 1.246 1.246s-.559 1.246-1.246 1.246z"/></svg>
-                            <span class="truncate">social/instagram.link</span>
-                        </div>
-                        
-                        <!-- TikTok -->
-                        <div class="file-item p-2 rounded-lg flex items-center" 
-                            onclick="openFile('social/tiktok.link', 'https://www.tiktok.com/@onas_zur?_t=ZN-8ywijLtnKwp&_r=1', 'social')">
-                            <!-- TikTok Icon (Custom Red/Cyan) -->
-                            <svg class="w-5 h-5 mr-2 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.55 0c.264 0 .528.005.792.017v5.673c-.027-.006-.054-.012-.08-.018-1.528-.152-3.411-.084-4.945 1.189-1.391 1.144-1.696 3.011-1.055 4.639.641 1.628 2.378 2.657 4.195 2.657 1.817 0 3.554-1.029 4.195-2.657.641-1.628.336-3.495-1.055-4.639 1.523-.153 2.923-1.079 3.495-2.585v-4.605c-.264.01-.528.015-.792.015-3.048 0-5.895 1.183-7.585 3.327-.552.709-1.058 1.488-1.503 2.327-.445-.839-.88-1.618-1.423-2.327-1.69-2.144-4.537-3.327-7.585-3.327zm0 0c.264 0 .528.005.792.017v5.673c-.027-.006-.054-.012-.08-.018-1.528-.152-3.411-.084-4.945 1.189-1.391 1.144-1.696 3.011-1.055 4.639.641 1.628 2.378 2.657 4.195 2.657 1.817 0 3.554-1.029 4.195-2.657.641-1.628.336-3.495-1.055-4.639 1.523-.153 2.923-1.079 3.495-2.585v-4.605c-.264.01-.528.015-.792.015-3.048 0-5.895 1.183-7.585 3.327-.552.709-1.058 1.488-1.503 2.327-.445-.839-.88-1.618-1.423-2.327-1.69-2.144-4.537-3.327-7.585-3.327z" transform="translate(0 3)"/><path fill="#00ffff" d="M12.55 0c.264 0 .528.005.792.017v5.673c-.027-.006-.054-.012-.08-.018-1.528-.152-3.411-.084-4.945 1.189-1.391 1.144-1.696 3.011-1.055 4.639.641 1.628 2.378 2.657 4.195 2.657 1.817 0 3.554-1.029 4.195-2.657.641-1.628.336-3.495-1.055-4.639 1.523-.153 2.923-1.079 3.495-2.585v-4.605c-.264.01-.528.015-.792.015-3.048 0-5.895 1.183-7.585 3.327-.552.709-1.058 1.488-1.503 2.327-.445-.839-.88-1.618-1.423-2.327-1.69-2.144-4.537-3.327-7.585-3.327z" transform="translate(1 3)"/></svg>
                             <span class="truncate">social/tiktok.link</span>
                         </div>
                     </div>
@@ -218,12 +132,8 @@
 
                 <!-- Custom Image Loading Area (Hidden by default) -->
                 <div id="image-loader" class="flex flex-col items-center justify-center flex-grow space-y-4 hidden">
-                    <img src="https://i.ibb.co/9DNgYRR/1760205660226-1760205608232-Screenshot-20251011-225902.jpg" 
-                         alt="Accessing Profile" 
-                         class="w-40 h-40 object-cover rounded-full border-4 border-cyan-500 shadow-2xl shadow-cyan-500/50 animate-pulse"
-                         onerror="this.onerror=null; this.src='https://placehold.co/160x160/00FFFF/000000?text=ACCESS';"
-                    >
-                    <p class="text-xl text-cyan-400 font-bold mt-4">INITIATING SECURE DATA TRANSFER...</p>
+                    <img src="https://i.ibb.co/9DNgYRR/1760205660226-1760205608232-Screenshot-20251011-225902.jpg" alt="profile" class="w-40 h-40 object-cover rounded-full border-4 border-cyan-500 shadow-2xl shadow-cyan-500/50 animate-pulse" onerror="this.onerror=null;this.src='https://placehold.co/160x160/00FFFF/000000?text=ACCESS';">
+                    <p class="text-xl text-cyan-400 font-bold mt-4">LOADING...</p>
                     <div id="loading-bar-inner" class="w-full max-w-sm h-2 bg-cyan-900 mt-4 rounded-full overflow-hidden">
                         <div id="loading-progress" class="h-2 bg-cyan-400 transition-all duration-100 ease-linear"></div>
                     </div>
@@ -231,8 +141,21 @@
 
                 <!-- Original Execution Log (Shown by default) -->
                 <div id="execution-log" class="flex-grow overflow-y-auto space-y-1 text-sm bg-slate-900/40 p-3 rounded-lg">
-                    <!-- Initial Log Message -->
-                    <p class="text-green-400">[SYSTEM] :: Login successful. Access granted to personal profile matrix.</p>
+                    <p class="text-green-400">[SYSTEM] Login successful.</p>
+                </div>
+
+                <!-- In-App Browser: Anas Hacker Browser (hidden by default) -->
+                <div id="anas-browser" class="hidden flex flex-col h-full w-full bg-slate-800/80 rounded-lg p-2 border border-cyan-600">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <div class="font-mono text-sm text-cyan-200 font-bold">Anas Hacker Browser</div>
+                        <button id="anas-browser-back" class="px-2 py-1 rounded bg-gray-700 text-white text-sm" onclick="browserBack()" disabled>&larr;</button>
+                        <button id="anas-browser-forward" class="px-2 py-1 rounded bg-gray-700 text-white text-sm" onclick="browserForward()" disabled>&rarr;</button>
+                        <button id="anas-browser-reload" class="px-2 py-1 rounded bg-gray-700 text-white text-sm" onclick="browserReload()">⟳</button>
+                        <button id="anas-browser-close" class="px-2 py-1 rounded bg-red-600 text-white text-sm" onclick="closeBrowser()">CLOSE</button>
+                    </div>
+                    <div class="flex-grow h-0">
+                        <iframe id="anas-browser-iframe" class="w-full h-full bg-white rounded-md" sandbox="allow-forms allow-scripts allow-popups allow-same-origin"></iframe>
+                    </div>
                 </div>
 
                 <!-- Simulated Status Bar -->
@@ -247,211 +170,42 @@
     </div>
 
     <script>
-        // --- UI State Functions ---
-        const loginContainer = document.getElementById('login-container');
-        const fileSystemContainer = document.getElementById('file-system-container');
+        // UI state
+        const loginContainer=document.getElementById('login-container'),fileSystemContainer=document.getElementById('file-system-container');
+        function showLoginScreen(){loginContainer.style.display='flex';fileSystemContainer.style.display='none'}
+        function showMainConsole(){loginContainer.style.display='none';fileSystemContainer.style.display='flex'}
 
-        function showLoginScreen() {
-            loginContainer.style.display = 'flex';
-            fileSystemContainer.style.display = 'none';
-        }
-
-        function showMainConsole() {
-            loginContainer.style.display = 'none';
-            fileSystemContainer.style.display = 'flex';
-        }
-
-        /**
-         * Simulates a login check.
-         */
-        window.handleLogin = async function() {
-            const user = document.getElementById('login-user').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-            const errorElement = document.getElementById('login-error');
-            const loginButton = document.getElementById('login-button');
-
-            errorElement.classList.add('hidden');
-            loginButton.disabled = true;
-            loginButton.textContent = 'AUTHENTICATING...';
-
-            if (user && password) {
-                // Simulate successful connection and authentication delay
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                showMainConsole();
-                
-            } else {
-                errorElement.textContent = "User ID and Access Key are required.";
-                errorElement.classList.remove('hidden');
-            }
-
-            loginButton.disabled = false;
-            loginButton.textContent = 'INITIATE SESSION';
+        window.handleLogin=async function(){
+            const user=document.getElementById('login-user').value.trim(),password=document.getElementById('login-password').value.trim(),errorElement=document.getElementById('login-error'),loginButton=document.getElementById('login-button');
+            errorElement.classList.add('hidden');loginButton.disabled=true;loginButton.textContent='AUTHENTICATING...';
+            if(user&&password){await new Promise(r=>setTimeout(r,1500));showMainConsole()}else{errorElement.textContent='User ID and Access Key are required.';errorElement.classList.remove('hidden')}
+            loginButton.disabled=false;loginButton.textContent='OPEN'
         };
 
+        // Core logic
+        const logWindow=document.getElementById('execution-log'),targetPath=document.getElementById('target-path'),imageLoader=document.getElementById('image-loader'),loadingProgress=document.getElementById('loading-progress');
+        // CONFIG: set your proxy base here.
+        // To use a Pakistani proxy, replace the value below with your proxy URL, e.g.
+        // const PROXY_BASE = 'http://pakistan-proxy.example.com/proxy?url=';
+        // Keep default for local testing: http://localhost:3000/proxy?url=
+        const PROXY_BASE = 'http://localhost:3000/proxy?url=';
+        let anasBrowserHistory=[],anasBrowserIndex=-1;
+        function normalizeUrl(u){try{return new URL(u).href}catch(e){try{return new URL('https://'+u).href}catch(e2){return u}}}
+        function appendLog(text,color='text-green-400',isHtml=false){const p=document.createElement('p');p.className=`${color} leading-snug`;const time=new Date().toLocaleTimeString('en-US',{hour12:false});p.textContent=`[${time}] :: ${text}`;logWindow.appendChild(p);logWindow.scrollTop=logWindow.scrollHeight}
+        function toggleInteraction(disabled){document.querySelectorAll('.file-item').forEach(i=>i.classList.toggle('disabled',disabled))}
 
-        // --- Core File System Logic ---
-        const logWindow = document.getElementById('execution-log');
-        const targetPath = document.getElementById('target-path');
-        const imageLoader = document.getElementById('image-loader'); // New element
-        const loadingProgress = document.getElementById('loading-progress');
+        // Browser controls (back/forward/reload/close)
+        function updateBrowserControls(){const back=document.getElementById('anas-browser-back'),forward=document.getElementById('anas-browser-forward');back.disabled=anasBrowserIndex<=0;forward.disabled=anasBrowserIndex>=anasBrowserHistory.length-1||anasBrowserIndex===-1}
+        function openInAppBrowser(url){const browser=document.getElementById('anas-browser'),iframe=document.getElementById('anas-browser-iframe'),normalized=normalizeUrl(url);if(anasBrowserIndex===-1||anasBrowserHistory[anasBrowserIndex]!==normalized){anasBrowserHistory=anasBrowserHistory.slice(0,anasBrowserIndex+1);anasBrowserHistory.push(normalized);anasBrowserIndex=anasBrowserHistory.length-1}browser.classList.remove('hidden');logWindow.style.display='none';iframe.src=normalized;updateBrowserControls();const t=setTimeout(()=>appendLog('NOTICE: Some sites block embedding.', 'text-yellow-400'),1200);iframe.onload=()=>{clearTimeout(t);appendLog('SUCCESS: Loaded in browser.','text-green-300')};toggleInteraction(false)}
+        function browserBack(){if(anasBrowserIndex>0){anasBrowserIndex--;document.getElementById('anas-browser-iframe').src=anasBrowserHistory[anasBrowserIndex];updateBrowserControls()}}
+        function browserForward(){if(anasBrowserIndex<anasBrowserHistory.length-1){anasBrowserIndex++;document.getElementById('anas-browser-iframe').src=anasBrowserHistory[anasBrowserIndex];updateBrowserControls()}}
+        function browserReload(){if(anasBrowserIndex>=0)document.getElementById('anas-browser-iframe').src=anasBrowserHistory[anasBrowserIndex]}
+        function closeBrowser(){document.getElementById('anas-browser-iframe').src='about:blank';document.getElementById('anas-browser').classList.add('hidden');logWindow.style.display='block';appendLog('INFO: Closed browser.','text-gray-400')}
 
-        /**
-         * Appends a log entry to the execution window.
-         * @param {string} text - The content of the log entry.
-         * @param {string} color - Tailwind text color class.
-         * @param {boolean} isHtml - If true, injects content as innerHTML (used for links).
-         */
-        function appendLog(text, color = 'text-green-400', isHtml = false) {
-            const p = document.createElement('p');
-            p.className = `${color} leading-snug`;
-            const time = new Date().toLocaleTimeString('en-US', { hour12: false });
-            
-            if (isHtml) {
-                // Use innerHTML for clickable links
-                p.innerHTML = `[${time}] :: ${text}`;
-            } else {
-                // Use textContent for safety in all other cases
-                p.textContent = `[${time}] :: ${text}`;
-            }
-            logWindow.appendChild(p);
-            logWindow.scrollTop = logWindow.scrollHeight; // Auto-scroll
-        }
-        
-        /**
-         * Disables or enables interaction with file system items during a process.
-         * @param {boolean} disabled - True to disable, False to enable.
-         */
-        function toggleInteraction(disabled) {
-            const items = document.querySelectorAll('.file-item');
-            items.forEach(item => {
-                item.classList.toggle('disabled', disabled);
-            });
-        }
+        window.openFile=async function(name,link,type){toggleInteraction(true);logWindow.style.display='none';imageLoader.classList.remove('hidden');targetPath.textContent=`/user/personal_profile/ ${name}`;const loadTime=1500,steps=10,stepTime=Math.max(20,Math.floor(loadTime/steps));for(let i=1;i<=steps;i++){loadingProgress.style.width=`${i*(100/steps)}%`;await new Promise(r=>setTimeout(r,stepTime))}imageLoader.classList.add('hidden');logWindow.style.display='block';loadingProgress.style.width='0%';appendLog(`[SUCCESS] :: ${name} processed.`,'text-green-400 font-bold');let statusMsg='STATUS: Preparing redirect.';if(type==='social')statusMsg='STATUS: Redirecting to social channel.';if(type==='code')statusMsg='STATUS: Redirecting to code repository.';if(type==='utility')statusMsg='STATUS: Redirecting to utility resource.';if(type==='blog')statusMsg='STATUS: Redirecting to blog resource.';appendLog(statusMsg,'text-green-300');appendLog('ACCESS GRANTED: Opening in app browser...','text-cyan-400 font-bold');await new Promise(r=>setTimeout(r,300));try{openInAppBrowser(link)}catch(e){appendLog('WARNING: fallback to new tab.','text-yellow-400');window.open(link,'_blank')}appendLog('--- PROTOCOL COMPLETE ---','text-gray-600');toggleInteraction(false)};
 
-        /**
-         * Simulates opening a file or folder with a loading sequence and handles the link opening.
-         * @param {string} name - The name of the file or folder displayed in the UI.
-         * @param {string} link - The actual URL to open.
-         * @param {string} type - The category (social, code, utility).
-         */
-        window.openFile = async function(name, link, type) {
-            // Prevent interaction while processing
-            toggleInteraction(true);
-
-            // Show loading UI (do NOT open any window yet)
-            logWindow.style.display = 'none';
-            imageLoader.classList.remove('hidden');
-            targetPath.textContent = `/user/personal_profile/ ${name}`;
-
-            // Simulated loading progress
-            const loadTime = 1500; // ms
-            const steps = 10;
-            const stepTime = Math.max(20, Math.floor(loadTime / steps));
-
-            for (let i = 1; i <= steps; i++) {
-                const percentage = i * (100 / steps);
-                loadingProgress.style.width = `${percentage}%`;
-                await new Promise(resolve => setTimeout(resolve, stepTime));
-            }
-
-            // Restore UI after loading completes
-            imageLoader.classList.add('hidden');
-            logWindow.style.display = 'block';
-            loadingProgress.style.width = '0%';
-
-            // Log outcome WITHOUT revealing the URL
-            appendLog(`[SUCCESS] :: Link extraction complete for ${name}.`, 'text-green-400 font-bold');
-
-            let statusMsg = 'STATUS: Preparing external redirect.';
-            if (type === 'social') statusMsg = 'STATUS: Redirecting to social channel.';
-            if (type === 'code') statusMsg = 'STATUS: Redirecting to code repository.';
-            if (type === 'utility') statusMsg = 'STATUS: Redirecting to utility resource.';
-            if (type === 'blog') statusMsg = 'STATUS: Redirecting to blog resource.';
-
-            appendLog(statusMsg, 'text-green-300');
-            appendLog('ACCESS GRANTED: Opening external resource in a new window...', 'text-cyan-400 font-bold');
-
-            // Small pause so the user sees the message before the navigation
-            await new Promise(resolve => setTimeout(resolve, 300));
-
-            // Attempt to open the link now (after loading completes). If blocked, show fallback button.
-            try {
-                const w = window.open(link, '_blank');
-                if (!w) throw new Error('Popup blocked');
-            } catch (err) {
-                appendLog('WARNING: Automatic open blocked by the browser. Use the button below to proceed.', 'text-yellow-400');
-
-                const btn = document.createElement('button');
-                btn.textContent = 'OPEN RESOURCE';
-                btn.className = 'bg-cyan-600 text-white px-3 py-1 rounded';
-                btn.onclick = () => { window.open(link, '_blank'); };
-
-                const wrapper = document.createElement('div');
-                wrapper.className = 'pt-1';
-                wrapper.appendChild(btn);
-                logWindow.appendChild(wrapper);
-                logWindow.scrollTop = logWindow.scrollHeight;
-            }
-
-            appendLog('--- PROTOCOL COMPLETE ---', 'text-gray-600');
-            toggleInteraction(false);
-        };
-
-
-        // --- Wallpaper Animation Logic (Gray Circles) ---
-        const matrixCanvas = document.getElementById('matrixCanvas');
-        const matrixCtx = matrixCanvas.getContext('2d');
-        
-        let width, height;
-        const column_width = 15; 
-        const row_height = 15;   
-        const circle_radius = 2.5; 
-        let drops = [];
-
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            matrixCanvas.width = width;
-            matrixCanvas.height = height;
-            const columns = Math.floor(width / column_width);
-            if (drops.length === 0 || drops.length !== columns) {
-                drops.length = columns;
-                for(let i = 0; i < columns; i++) { drops[i] = 1; }
-            }
-        }
-        window.addEventListener('resize', resizeCanvas);
-
-        function draw() {
-            matrixCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            matrixCtx.fillRect(0, 0, width, height);
-
-            matrixCtx.fillStyle = "#AAAAAA"; 
-
-            for(let i = 0; i < drops.length; i++) {
-                const x_pos = i * column_width + (column_width / 2); 
-                const y_pos = drops[i] * row_height; 
-                
-                matrixCtx.beginPath();
-                matrixCtx.arc(x_pos, y_pos, circle_radius, 0, Math.PI * 2);
-                matrixCtx.fill();
-                
-                if(drops[i] * row_height > height && Math.random() > 0.97) {
-                    drops[i] = 0; 
-                }
-
-                drops[i]++;
-            }
-        }
-
-        // --- Start Application ---
-        window.onload = function() {
-            resizeCanvas();
-            setInterval(draw, 40); 
-            
-            // Show the login screen first
-            showLoginScreen();
-        };
+        // Wallpaper
+        const matrixCanvas=document.getElementById('matrixCanvas'),matrixCtx=matrixCanvas.getContext('2d');let width,height,column_width=15,row_height=15,circle_radius=2.5,drops=[];function resizeCanvas(){width=window.innerWidth;height=window.innerHeight;matrixCanvas.width=width;matrixCanvas.height=height;const columns=Math.floor(width/column_width);if(drops.length===0||drops.length!==columns){drops.length=columns;for(let i=0;i<columns;i++)drops[i]=1}}window.addEventListener('resize',resizeCanvas);function draw(){matrixCtx.fillStyle='rgba(0,0,0,0.05)';matrixCtx.fillRect(0,0,width,height);matrixCtx.fillStyle='#AAAAAA';for(let i=0;i<drops.length;i++){const x_pos=i*column_width+(column_width/2);const y_pos=drops[i]*row_height;matrixCtx.beginPath();matrixCtx.arc(x_pos,y_pos,circle_radius,0,Math.PI*2);matrixCtx.fill();if(drops[i]*row_height>height&&Math.random()>0.97)drops[i]=0;drops[i]++}}window.onload=function(){resizeCanvas();setInterval(draw,40);showLoginScreen()};
     </script>
 </body>
 </html>
