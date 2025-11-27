@@ -103,9 +103,10 @@
                         <div class="file-item p-2 rounded-lg flex items-center" 
                             onclick="openFile('social/whatsapp.link', 'https://wa.me/qr/3NQEGYNWUCUNL1', 'social')">
                             <!-- WhatsApp Icon (Custom Green) -->
-                            <svg class="w-5 h-5 mr-2 text-green-500" xmlns="https://www.mediafire.com/file/nemdo3wvnqn6qm6/GB_by_Anas007_.apk/file" viewBox="0 0 24 24" fill="currentColor"><path d="M12.03 2.001c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm-1.125 14.5c-.254.088-2.673 1.353-2.673 1.353s-.299.13-.59.13c-.004 0-.008 0-.012 0-.295-.004-.543-.13-.746-.333l-.004-.004c-.33-.33-.509-.76-.509-1.228 0-.012 0-.02-.008-.032-.13-.377-1.353-3.606-1.353-3.606s-.096-.28-.096-.56c0-.28.169-.475.253-.574.084-.1.493-.169.58-.169h.008c.088 0 1.954.76 1.954.76.084.043.19.034.254-.043l1.838-2.31c.068-.088.056-.205-.028-.273-.178-.146-1.076-1.096-1.496-1.554-.056-.06-.096-.13-.096-.226s.034-.16.08-.205c.08-.076.17-.11.267-.11.092 0 .185.034.254.088l.004.004 2.923 2.834c.052.052.12.088.204.088h.028c.084 0 .15-.028.205-.088 1.48-1.543 2.37-2.387 2.45-2.476.126-.14.288-.2.457-.208.169 0 .338.064.457.185.118.118.29.28.324.425.04.148-.04.42-.36.878-.458.683-1.637 2.144-1.637 2.144s-.06.27-.06.44c0 .17.168.375.304.544l2.584 2.87c.056.06.088.134.088.204 0 .092-.028.172-.08.24l-.004.004c-.198.198-.446.33-.74.33-.004 0-.008 0-.012 0-.283-.004-.49-.074-2.81-1.12-2.903-1.385-2.937-1.405-2.937-1.405s-.088-.04-.15-.04c-.06 0-.12.04-.158.084z"/></svg>
-                            <span class="truncate">GBwhatsapp Download</span>
-                        </div
+                            <svg class="w-5 h-5 mr-2 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.03 2.001c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm-1.125 14.5c-.254.088-2.673 1.353-2.673 1.353s-.299.13-.59.13c-.004 0-.008 0-.012 0-.295-.004-.543-.13-.746-.333l-.004-.004c-.33-.33-.509-.76-.509-1.228 0-.012 0-.02-.008-.032-.13-.377-1.353-3.606-1.353-3.606s-.096-.28-.096-.56c0-.28.169-.475.253-.574.084-.1.493-.169.58-.169h.008c.088 0 1.954.76 1.954.76.084.043.19.034.254-.043l1.838-2.31c.068-.088.056-.205-.028-.273-.178-.146-1.076-1.096-1.496-1.554-.056-.06-.096-.13-.096-.226s.034-.16.08-.205c.08-.076.17-.11.267-.11.092 0 .185.034.254.088l.004.004 2.923 2.834c.052.052.12.088.204.088h.028c.084 0 .15-.028.205-.088 1.48-1.543 2.37-2.387 2.45-2.476.126-.14.288-.2.457-.208.169 0 .338.064.457.185.118.118.29.28.324.425.04.148-.04.42-.36.878-.458.683-1.637 2.144-1.637 2.144s-.06.27-.06.44c0 .17.168.375.304.544l2.584 2.87c.056.06.088.134.088.204 0 .092-.028.172-.08.24l-.004.004c-.198.198-.446.33-.74.33-.004 0-.008 0-.012 0-.283-.004-.49-.074-2.81-1.12-2.903-1.385-2.937-1.405-2.937-1.405s-.088-.04-.15-.04c-.06 0-.12.04-.158.084z"/></svg>
+                            <span class="truncate">social/whatsapp.link</span>
+                        </div>
+
                         <!-- Facebook -->
                         <div class="file-item p-2 rounded-lg flex items-center" 
                             onclick="openFile('social/facebook.link', 'https://www.facebook.com/anas.ishaq.418290', 'social')">
@@ -201,12 +202,56 @@
         function browserReload(){if(anasBrowserIndex>=0)document.getElementById('anas-browser-iframe').src=anasBrowserHistory[anasBrowserIndex]}
         function closeBrowser(){document.getElementById('anas-browser-iframe').src='about:blank';document.getElementById('anas-browser').classList.add('hidden');logWindow.style.display='block';appendLog('INFO: Closed browser.','text-gray-400')}
 
-        window.openFile=async function(name,link,type){toggleInteraction(true);logWindow.style.display='none';imageLoader.classList.remove('hidden');targetPath.textContent=`/user/personal_profile/ ${name}`;const loadTime=1500,steps=10,stepTime=Math.max(20,Math.floor(loadTime/steps));for(let i=1;i<=steps;i++){loadingProgress.style.width=`${i*(100/steps)}%`;await new Promise(r=>setTimeout(r,stepTime))}imageLoader.classList.add('hidden');logWindow.style.display='block';loadingProgress.style.width='0%';appendLog(`[SUCCESS] :: ${name} processed.`,'text-green-400 font-bold');let statusMsg='STATUS: Preparing redirect.';if(type==='social')statusMsg='STATUS: Redirecting to social channel.';if(type==='code')statusMsg='STATUS: Redirecting to code repository.';if(type==='utility')statusMsg='STATUS: Redirecting to utility resource.';if(type==='blog')statusMsg='STATUS: Redirecting to blog resource.';appendLog(statusMsg,'text-green-300');appendLog('ACCESS GRANTED: Opening in app browser...','text-cyan-400 font-bold');await new Promise(r=>setTimeout(r,300));try{openInAppBrowser(link)}catch(e){appendLog('WARNING: fallback to new tab.','text-yellow-400');window.open(link,'_blank')}appendLog('--- PROTOCOL COMPLETE ---','text-gray-600');toggleInteraction(false)};
+        window.openFile=async function(name,link,type){
+            toggleInteraction(true);
+            logWindow.style.display='none';
+            imageLoader.classList.remove('hidden');
+            targetPath.textContent=`/user/personal_profile/ ${name}`;
+
+            const loadTime=1500,steps=10,stepTime=Math.max(20,Math.floor(loadTime/steps));
+            for(let i=1;i<=steps;i++){loadingProgress.style.width=`${i*(100/steps)}%`;await new Promise(r=>setTimeout(r,stepTime))}
+
+            imageLoader.classList.add('hidden');
+            logWindow.style.display='block';
+            loadingProgress.style.width='0%';
+            appendLog(`[SUCCESS] :: ${name} processed.`,'text-green-400 font-bold');
+
+            let statusMsg='STATUS: Preparing redirect.';
+            if(type==='social')statusMsg='STATUS: Redirecting to social channel.';
+            if(type==='code')statusMsg='STATUS: Redirecting to code repository.';
+            if(type==='utility')statusMsg='STATUS: Redirecting to utility resource.';
+            if(type==='blog')statusMsg='STATUS: Redirecting to blog resource.';
+            appendLog(statusMsg,'text-green-300');
+            appendLog('ACCESS GRANTED: Opening...','text-cyan-400 font-bold');
+            await new Promise(r=>setTimeout(r,300));
+
+            try{
+                if(type === 'social'){
+                    // Open social links in external browser/tab per user request
+                    appendLog('INFO: Opening social link in external browser...', 'text-gray-400');
+                    const newWin = window.open(link, '_blank', 'noopener');
+                    if(newWin){
+                        appendLog('SUCCESS: External tab opened for social link.', 'text-green-300');
+                    } else {
+                        appendLog('WARNING: External tab blocked by browser. Falling back to in-app browser.', 'text-yellow-400');
+                        openInAppBrowser(link);
+                    }
+                } else {
+                    // Non-social: open inside app using in-app browser
+                    appendLog('INFO: Opening inside in-app browser...', 'text-gray-400');
+                    openInAppBrowser(link);
+                }
+            }catch(e){
+                appendLog('WARNING: fallback to new tab.','text-yellow-400');
+                try{ window.open(link,'_blank'); }catch(err){ appendLog('ERROR: Could not open link.','text-red-400'); }
+            }
+
+            appendLog('--- PROTOCOL COMPLETE ---','text-gray-600');
+            toggleInteraction(false);
+        };
 
         // Wallpaper
         const matrixCanvas=document.getElementById('matrixCanvas'),matrixCtx=matrixCanvas.getContext('2d');let width,height,column_width=15,row_height=15,circle_radius=2.5,drops=[];function resizeCanvas(){width=window.innerWidth;height=window.innerHeight;matrixCanvas.width=width;matrixCanvas.height=height;const columns=Math.floor(width/column_width);if(drops.length===0||drops.length!==columns){drops.length=columns;for(let i=0;i<columns;i++)drops[i]=1}}window.addEventListener('resize',resizeCanvas);function draw(){matrixCtx.fillStyle='rgba(0,0,0,0.05)';matrixCtx.fillRect(0,0,width,height);matrixCtx.fillStyle='#AAAAAA';for(let i=0;i<drops.length;i++){const x_pos=i*column_width+(column_width/2);const y_pos=drops[i]*row_height;matrixCtx.beginPath();matrixCtx.arc(x_pos,y_pos,circle_radius,0,Math.PI*2);matrixCtx.fill();if(drops[i]*row_height>height&&Math.random()>0.97)drops[i]=0;drops[i]++}}window.onload=function(){resizeCanvas();setInterval(draw,40);showLoginScreen()};
     </script>
 </body>
 </html>
-
-
